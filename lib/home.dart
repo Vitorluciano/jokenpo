@@ -16,13 +16,36 @@ class _HomeState extends State<Home> {
     "images/papel.png",
     "images/tesoura.png"
   ];
+  String msgFeedback = "Escolha uma opção!";
+  String result = "";
 
-  void _play() {
-    int i = Random().nextInt(choicesPaths.length);
+  void _play(String userChoice) {
+    int i = Random().nextInt(choicesPaths.length + 1);
     setState( () {
       appChoicePath = choicesPaths[i];
-    })
-;  }
+      if (appChoicePath == "images/pedra.png" && userChoice == "pedra") {
+        result = "Empate";
+      } else if (appChoicePath == "images/pedra.png" && userChoice == "papel") {
+        result = "Você venceu";
+      } else if (appChoicePath == "images/pedra.png" && userChoice == "tesoura") {
+        result = "Você perdeu";
+      } else if (appChoicePath == "images/papel.png" && userChoice == "pedra") {
+        result = "Você perdeu";
+      } else if (appChoicePath == "images/papel.png" && userChoice == "papel") {
+        result = "Empate";
+      } else if (appChoicePath == "images/papel.png" && userChoice == "tesoura") {
+        result = "Você venceu";
+      } else if (appChoicePath == "images/tesoura.png" && userChoice == "pedra") {
+        result = "Você venceu";
+      } else if (appChoicePath == "images/tesoura.png" && userChoice == "papel") {
+        result = "Você perdeu";
+      } else if (appChoicePath == "images/tesoura.png" && userChoice == "tesoura") {
+        result = "Empate";
+      }
+    });
+    
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,23 +57,28 @@ class _HomeState extends State<Home> {
           children: [
             Text("Escolha do App"),
             Image.asset(appChoicePath, height: 150),
-            Text("Escolha uma opção!"),
+            Text(msgFeedback),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
                   child: Image.asset("images/pedra.png", height: 80),
-                  onTap: _play,
+                  onTap: () => _play("pedra")
                 ),
                 GestureDetector(
                   child: Image.asset("images/papel.png", height: 80),
-                  onTap: _play,
+                  onTap: () {
+                    _play("papel");
+                  }
                 ),
                 GestureDetector(
                   child: Image.asset("images/tesoura.png", height: 80),
-                  onTap: _play,
+                  onTap: () {
+                    _play("tesoura");
+                  }
                 )
-              ],)
+              ]),
+            Text(result)
           ]
         )
       )
